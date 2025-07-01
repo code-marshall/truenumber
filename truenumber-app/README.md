@@ -1,50 +1,119 @@
-# Welcome to your Expo app 👋
+# TrueNumber App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A React Native mobile application that provides secure phone number verification without sharing actual phone numbers with companies.
 
-## Get started
+## Features
 
-1. Install dependencies
+### 1. User Registration Flow
+- **Country Selection**: Choose your country from a dropdown list
+- **Phone Number Input**: Enter your phone number with automatic country code
+- **OTP Verification**: Receive and enter a 6-digit verification code
+- **Name Entry**: Complete registration by providing your name
 
+### 2. Home Screen
+- **Dashboard**: View your verification status and user information
+- **Automatic Checking**: Checks for pending verification requests every 10 seconds
+- **Pull to Refresh**: Manual refresh for immediate updates
+- **Logout**: Secure logout functionality
+
+### 3. Verification Screen
+- **3-Number Selection**: Choose the correct number from 3 options shown by companies
+- **Company Information**: See which company is requesting verification
+- **Security Note**: Confirmation that your actual number is never shared
+
+## How to Run
+
+1. **Install Dependencies**:
    ```bash
+   cd truenumber-app
    npm install
    ```
 
-2. Start the app
-
+2. **Start the Development Server**:
    ```bash
-   npx expo start
+   npm start
+   # or
+   expo start
    ```
 
-In the output, you'll find options to open the app in a
+3. **Run on Device/Simulator**:
+   - For iOS: Press `i` or run `npm run ios`
+   - For Android: Press `a` or run `npm run android`
+   - For Web: Press `w` or run `npm run web`
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Testing the App
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### Registration Flow
+1. Open the app and tap "Get Started"
+2. Select any country and enter a phone number (minimum 8 digits)
+3. Tap "Send OTP" and enter any 6-digit number as OTP (e.g., 123456)
+4. Enter your name and complete registration
 
-## Get a fresh project
+### Verification Flow
+1. After registration, you'll be taken to the home screen
+2. Wait for mock verification requests to appear (they generate randomly every 10 seconds with 30% probability)
+3. Tap on a pending verification to open the verification screen
+4. Select one of the 3 numbers shown (the correct one is randomly determined)
+5. Tap "Verify" to complete the process
 
-When you're ready, run:
+## Mock API Features
 
-```bash
-npm run reset-project
+The app includes a complete mock API service that simulates:
+
+- **OTP Generation**: Always accepts any 6-digit OTP for demo purposes
+- **Token Management**: Creates and validates authentication tokens
+- **Pending Validations**: Automatically generates mock verification requests
+- **Company Simulation**: Shows requests from different mock companies (TechCorp, SecureBank, ShopEasy, PayFast)
+
+## App Flow
+
+```
+Welcome Screen → Registration → OTP → Name Entry → Home Screen → Verification
+      ↓              ↓         ↓         ↓           ↓            ↓
+  Get Started    Enter Phone  Enter OTP  Enter Name  View Pending  Select Number
+                                                     Requests      & Verify
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Technical Implementation
 
-## Learn more
+- **Framework**: React Native with Expo
+- **Navigation**: Expo Router
+- **State Management**: React Context (AuthContext)
+- **UI Components**: Custom styled components
+- **Type Safety**: Full TypeScript implementation
+- **Mock Data**: Simulated API responses with realistic delays
 
-To learn more about developing your project with Expo, look at the following resources:
+## Security Features
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- Token-based authentication
+- Secure session management
+- No actual phone number sharing with companies
+- User consent for all verification requests
 
-## Join the community
+## File Structure
 
-Join our community of developers creating universal apps.
+```
+truenumber-app/
+├── app/
+│   ├── _layout.tsx          # Root navigation layout
+│   ├── index.tsx            # Welcome/landing screen
+│   ├── register.tsx         # Phone number registration
+│   ├── otp.tsx              # OTP verification
+│   ├── name.tsx             # Name entry
+│   ├── home.tsx             # Main dashboard
+│   └── verify.tsx           # Number verification
+├── contexts/
+│   └── AuthContext.tsx      # Authentication state management
+├── services/
+│   └── api.ts               # Mock API service
+└── package.json
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Notes for Testing
+
+- The app automatically generates mock verification requests every 10 seconds with a 30% probability
+- All API calls include realistic delays to simulate network requests
+- The OTP verification accepts any 6-digit numeric input
+- Verification success/failure is determined by whether you select the correct number from the 3 options
+
+The app provides a complete demonstration of the TrueNumber verification flow and is ready for further development or integration with real backend services.
