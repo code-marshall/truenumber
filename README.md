@@ -1,388 +1,304 @@
 # TrueNumber - Secure Mobile Verification Service
 
-TrueNumber is an innovative mobile verification service that provides a secure, seamless alternative to traditional phone number verification methods. The service uses a two-phase verification process: initial device-number registration and subsequent push notification-based verifications.
+> Revolutionizing phone number verification through secure, seamless push-notification-based authentication.
 
-## 🏗️ Architecture Overview
+## 🚀 Overview
 
-The TrueNumber system consists of:
+TrueNumber is an innovative mobile application that eliminates the friction of traditional SMS OTP methods by establishing a trusted device-number relationship and enabling push-notification-based verifications for subsequent transactions.
 
-- **Frontend**: React Native mobile application (iOS/Android)
-- **Backend**: Node.js/Express API with TypeScript
-- **Database**: PostgreSQL with Prisma ORM
-- **Cache**: Redis for session management and caching
-- **Push Notifications**: Firebase Cloud Messaging (FCM)
-- **SMS**: Twilio or AWS SNS for OTP delivery
+### Key Features
 
-## 📋 Prerequisites
+- **One-Time Setup**: Users verify their number once during onboarding
+- **Push-Based Verification**: Instant verification through secure push notifications
+- **Enterprise Ready**: Scalable API for third-party integrations
+- **Security First**: End-to-end encryption with biometric protection
+- **Cross-Platform**: React Native with Expo for iOS and Android
 
-Before running the application, ensure you have the following installed:
+## � Project Structure
 
-### System Requirements
-- **Node.js**: v16 or higher
-- **npm** or **yarn**: Package manager
-- **PostgreSQL**: v13 or higher
-- **Redis**: v6 or higher
-- **React Native CLI**: For mobile development
-- **Android Studio**: For Android development
-- **Xcode**: For iOS development (macOS only)
+```
+truenumber/
+├── ARCHITECTURE.md          # Comprehensive architecture documentation
+├── README.md               # This file
+├── docker-compose.yml      # Complete development environment
+├── frontend/               # React Native mobile app
+│   ├── src/
+│   │   ├── components/     # Reusable UI components
+│   │   ├── screens/        # App screens
+│   │   ├── services/       # API and business logic
+│   │   ├── store/          # Redux state management
+│   │   ├── utils/          # Utility functions
+│   │   └── types/          # TypeScript definitions
+│   ├── app.json           # Expo configuration
+│   ├── package.json
+│   └── tsconfig.json
+└── backend/                # Node.js API server
+    ├── src/
+    │   ├── controllers/    # Request handlers
+    │   ├── services/       # Business logic services
+    │   ├── models/         # Database models
+    │   ├── middleware/     # Express middleware
+    │   ├── routes/         # API routes
+    │   ├── config/         # Configuration files
+    │   ├── utils/          # Utility functions
+    │   └── types/          # TypeScript definitions
+    ├── Dockerfile
+    ├── package.json
+    └── tsconfig.json
+```
 
-### Additional Requirements
-- Firebase project with FCM enabled
-- Twilio account (for SMS OTP)
-- AWS account (optional, for SMS via SNS)
+## 🛠 Quick Start
 
-## 🚀 Quick Start
+### Prerequisites
 
-### 1. Clone the Repository
+- Node.js 18+ and npm 8+
+- Docker and Docker Compose
+- Git
+- Expo CLI (`npm install -g @expo/cli`)
+
+### 1. Clone and Setup
 
 ```bash
 git clone <repository-url>
 cd truenumber
-```
 
-### 2. Environment Setup
-
-Copy the environment file and configure your settings:
-
-```bash
+# Create environment files
 cp .env.example .env
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
 ```
 
-Edit the `.env` file with your actual configuration values:
+### 2. Start Development Environment
 
 ```bash
-# Required: Update these values
-DATABASE_URL=postgresql://username:password@localhost:5432/truenumber
-JWT_ACCESS_SECRET=your-super-secret-access-key
-JWT_REFRESH_SECRET=your-super-secret-refresh-key
-FIREBASE_PROJECT_ID=your-firebase-project-id
-FIREBASE_PRIVATE_KEY="your-firebase-private-key"
-FIREBASE_CLIENT_EMAIL=your-firebase-client-email
-TWILIO_ACCOUNT_SID=your-twilio-account-sid
-TWILIO_AUTH_TOKEN=your-twilio-auth-token
-TWILIO_PHONE_NUMBER=your-twilio-phone-number
-```
+# Start all services (PostgreSQL, Redis, Backend API)
+docker-compose up -d
 
-### 3. Database Setup
-
-Start PostgreSQL and Redis services:
-
-```bash
-# On macOS with Homebrew
-brew services start postgresql
-brew services start redis
-
-# On Ubuntu/Debian
-sudo systemctl start postgresql
-sudo systemctl start redis-server
-
-# Create the database
-createdb truenumber
-```
-
-### 4. Backend Setup
-
-Navigate to the backend directory and install dependencies:
-
-```bash
-cd backend
-npm install
-
-# Generate Prisma client and run migrations
-npx prisma generate
-npx prisma migrate dev
-
-# Optional: Seed the database with sample data
-npm run seed
-
-# Start the development server
-npm run dev
-```
-
-The backend API will be available at `http://localhost:3000`
-
-### 5. Frontend Setup
-
-In a new terminal, navigate to the frontend directory:
-
-```bash
+# Install frontend dependencies
 cd frontend
 npm install
 
-# For iOS (macOS only)
-cd ios && pod install && cd ..
-
-# Start Metro bundler
+# Start the mobile app
 npm start
 ```
 
-### 6. Run the Mobile App
+### 3. Install Mobile App
 
-In separate terminals:
+- **iOS**: Open Expo Go app and scan QR code
+- **Android**: Open Expo Go app and scan QR code  
+- **Simulator**: Press `i` for iOS simulator or `a` for Android emulator
 
-```bash
-# For Android
-npm run android
+## 🏗 Architecture Overview
 
-# For iOS (macOS only)
-npm run ios
-```
+### Frontend (React Native + Expo)
+- **Framework**: React Native with Expo SDK 50+
+- **State Management**: Redux Toolkit
+- **Navigation**: Expo Router
+- **Security**: Secure storage, biometric authentication
+- **Notifications**: Expo Notifications with FCM
 
-## 📱 Mobile App Features
+### Backend (Node.js + TypeScript)
+- **Runtime**: Node.js 18+ with TypeScript
+- **Framework**: Express.js with security middleware
+- **Database**: PostgreSQL with Knex.js ORM
+- **Cache**: Redis for session and rate limiting
+- **Queue**: Bull for background job processing
+- **Authentication**: JWT with refresh tokens
 
-### Initial Onboarding Flow
-1. **Welcome Screen**: App introduction and value proposition
-2. **Phone Number Input**: Enter phone number with country selection
-3. **OTP Verification**: SMS/Call verification with auto-focus inputs
-4. **Device Registration**: Secure token generation and device binding
-5. **Biometric Setup**: Optional biometric authentication setup
-6. **Push Notification Permission**: Request notification permissions
-7. **Onboarding Complete**: Success confirmation
+### Security Features
+- **Encryption**: AES-256-GCM for sensitive data
+- **Certificate Pinning**: Protection against MITM attacks
+- **Rate Limiting**: Per-IP and per-API-key limits
+- **Biometric Auth**: Face ID/Touch ID integration
+- **Device Fingerprinting**: Unique device identification
 
-### Core Verification Flow
-1. **Push Notification Received**: Company requests verification
-2. **App Opens Automatically**: Deep linking to verification screen
-3. **Verification Prompt**: Display company info and phone number
-4. **User Confirmation**: Single tap to verify or decline
-5. **Secure Response**: Encrypted response sent to backend
-6. **Company Notification**: Real-time result delivery
+## � User Flow
 
-### User Settings & Privacy
-- **Verification History**: Complete log of all requests
-- **Company Management**: Whitelist/blacklist companies
-- **Auto-Verify Settings**: Trusted companies for automatic approval
-- **Security Settings**: Biometric requirements, PIN setup
-- **Privacy Controls**: Data sharing preferences
+### Initial Onboarding
+1. User installs app and enters phone number
+2. SMS OTP verification establishes device trust
+3. Cryptographic keys generated and stored securely
+4. Push notification permissions granted
 
-## 🔧 Backend API Endpoints
+### Verification Process
+1. Company requests verification via API
+2. Push notification sent to user's device
+3. App opens with verification prompt
+4. User taps "Verify" to confirm
+5. Encrypted response sent to company
 
-### Authentication
-- `POST /api/auth/send-otp` - Send OTP for phone verification
-- `POST /api/auth/verify-otp` - Verify OTP and register user
-- `POST /api/auth/refresh` - Refresh access token
-- `POST /api/auth/logout` - Logout user
-- `GET /api/auth/me` - Get current user info
+## 🔧 Development
 
-### Verification
-- `POST /api/verification/request` - Company requests verification
-- `POST /api/verification/respond` - User responds to verification
-- `GET /api/verification/history` - Get user's verification history
-- `GET /api/verification/pending` - Get pending verifications
+### Backend Development
 
-### User Management
-- `GET /api/user/profile` - Get user profile
-- `PUT /api/user/profile` - Update user profile
-- `POST /api/user/update-fcm-token` - Update FCM token
-- `GET /api/user/settings` - Get user settings
-- `PUT /api/user/settings` - Update user settings
-
-### Company Management
-- `POST /api/company/register` - Register new company
-- `GET /api/company/profile` - Get company profile
-- `PUT /api/company/profile` - Update company profile
-- `POST /api/company/trusted` - Add trusted company
-- `DELETE /api/company/trusted/:id` - Remove trusted company
-
-### Webhooks
-- `POST /api/webhook/verification-result` - Receive verification results
-
-## 🔐 Security Features
-
-### Device-Level Security
-- **Secure Enclave**: Biometric-protected key storage
-- **Certificate Pinning**: Prevent man-in-the-middle attacks
-- **Hardware Security Module**: Device binding and tamper detection
-- **Encrypted Local Storage**: Secure credential storage
-
-### API Security
-- **JWT Authentication**: Short-lived access tokens with refresh
-- **Rate Limiting**: Per-IP and per-user request limits
-- **Request Signing**: Cryptographic request validation
-- **Audit Logging**: Comprehensive security event logging
-
-### Privacy Protection
-- **GDPR/CCPA Compliance**: Data minimization and user rights
-- **End-to-End Encryption**: Message-level encryption
-- **Anonymization**: Privacy-preserving analytics
-- **Data Retention**: Configurable data lifecycle policies
-
-## 📊 Monitoring & Analytics
-
-### Health Monitoring
-```bash
-# Check API health
-curl http://localhost:3000/health
-
-# View logs
-tail -f logs/truenumber.log
-```
-
-### Performance Metrics
-- **Response Time**: <200ms API response target
-- **Verification Success Rate**: >95% success target
-- **App Crash Rate**: <0.1% crash rate target
-- **User Retention**: >80% 30-day retention target
-
-## 🧪 Testing
-
-### Backend Testing
 ```bash
 cd backend
+
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Run tests
 npm test
-npm run test:watch
-npm run test:coverage
+
+# Build for production
+npm run build
 ```
 
-### Frontend Testing
+### Frontend Development
+
 ```bash
 cd frontend
-npm test
-npm run test:watch
-npm run test:e2e
-```
 
-### Load Testing
-```bash
-# Install artillery for load testing
-npm install -g artillery
+# Install dependencies
+npm install
 
-# Run load tests
-artillery run tests/load/verification-flow.yml
-```
+# Start development server
+npm start
 
-## 🚢 Deployment
-
-### Docker Deployment
-```bash
-# Build and run with Docker Compose
-docker-compose up -d
-
-# Scale services
-docker-compose up -d --scale backend=3
-```
-
-### Production Checklist
-- [ ] Update environment variables for production
-- [ ] Configure SSL certificates
-- [ ] Set up monitoring and alerting
-- [ ] Configure database backups
-- [ ] Set up CI/CD pipeline
-- [ ] Configure log aggregation
-- [ ] Set up error tracking (Sentry)
-- [ ] Configure performance monitoring
-
-## 🛠️ Development Tools
-
-### Code Quality
-```bash
-# Lint code
-npm run lint
-npm run lint:fix
+# Run on specific platform
+npm run ios     # iOS simulator
+npm run android # Android emulator
+npm run web     # Web browser
 
 # Type checking
 npm run type-check
 
-# Format code
-npm run format
+# Linting
+npm run lint
 ```
 
 ### Database Management
+
 ```bash
-# View database
-npx prisma studio
+# Run migrations
+npm run migrate
 
-# Reset database
-npx prisma migrate reset
+# Rollback migrations
+npm run migrate:rollback
 
-# Generate migration
-npx prisma migrate dev --name your-migration-name
+# Run seeds
+npm run seed
 ```
 
-## 🤝 Company Integration
+## � Deployment
 
-### API Integration Example
+### Backend Deployment
+
+```bash
+# Build Docker image
+docker build -t truenumber-backend ./backend
+
+# Run with Docker Compose (production)
+docker-compose --profile production up -d
+```
+
+### Mobile App Deployment
+
+```bash
+cd frontend
+
+# Build for stores using EAS
+npx eas build --platform all
+
+# Submit to app stores
+npx eas submit --platform all
+```
+
+## 🔒 Security Considerations
+
+- **Never commit sensitive environment variables**
+- **Use strong secrets in production**
+- **Enable SSL/TLS in production**
+- **Implement proper API rate limiting**
+- **Regular security audits and updates**
+- **Follow OWASP security guidelines**
+
+## 📊 Monitoring & Analytics
+
+- **Health Checks**: `/api/health` endpoint
+- **Logging**: Winston with structured JSON logs
+- **Metrics**: Custom metrics for verification success rates
+- **Error Tracking**: Comprehensive error handling and reporting
+
+## 🤝 API Integration
+
+Companies can integrate with TrueNumber using our REST API:
+
 ```javascript
-// Company-side integration example
-const response = await fetch('https://api.truenumber.com/api/verification/request', {
-  method: 'POST',
-  headers: {
-    'Authorization': 'Bearer YOUR_API_KEY',
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    phoneNumber: '+1234567890',
-    requestId: 'unique-request-id',
-    metadata: {
-      transactionId: 'txn-123',
-      amount: 100.00
-    }
-  })
-});
+// Request verification
+POST /api/company/verify
+{
+  "phoneNumber": "+1234567890",
+  "purpose": "Account Registration",
+  "metadata": { "userId": "user123" }
+}
 
-const result = await response.json();
-console.log('Verification result:', result);
+// Response
+{
+  "success": true,
+  "data": {
+    "verificationId": "uuid",
+    "status": "pending",
+    "expiresAt": "2024-01-01T12:00:00Z"
+  }
+}
 ```
 
-### Webhook Implementation
-```javascript
-// Handle verification results
-app.post('/webhook/truenumber', (req, res) => {
-  const { requestId, approved, phoneNumber } = req.body;
-  
-  // Verify webhook signature
-  const signature = req.headers['x-truenumber-signature'];
-  if (!verifyWebhookSignature(signature, req.body)) {
-    return res.status(401).send('Invalid signature');
-  }
-  
-  // Process verification result
-  if (approved) {
-    // Complete user action
-    console.log(`Phone ${phoneNumber} verified for request ${requestId}`);
-  } else {
-    // Handle declined verification
-    console.log(`Verification declined for request ${requestId}`);
-  }
-  
-  res.status(200).send('OK');
-});
-```
+## 📈 Business Model
 
-## 💰 Monetization Model
+- **Per-Verification Pricing**: $0.02-$0.05 per verification
+- **Subscription Plans**: Monthly plans for high-volume users
+- **Enterprise Features**: Custom branding, analytics, SLA
+- **Freemium Model**: Basic features free, premium features paid
 
-### Pricing Tiers
-- **Basic**: $0.10 per verification (up to 1,000/month)
-- **Professional**: $0.08 per verification (up to 10,000/month)
-- **Enterprise**: $0.05 per verification (unlimited)
+## 🛣 Roadmap
 
-### Additional Services
-- **Premium Analytics**: $99/month
-- **Custom Branding**: $199/month
-- **White-label Solution**: Custom pricing
-- **Priority Support**: $299/month
+### Phase 1 (Months 1-3): MVP
+- [x] Project architecture and setup
+- [ ] Core verification flow
+- [ ] Basic security implementation
+- [ ] Company API integration
 
-## 📞 Support
+### Phase 2 (Months 4-5): Security & Scale
+- [ ] Advanced encryption
+- [ ] Biometric authentication
+- [ ] Performance optimization
+- [ ] Security audit
 
-### Technical Support
-- **Documentation**: [docs.truenumber.com](https://docs.truenumber.com)
-- **API Reference**: [api.truenumber.com](https://api.truenumber.com)
-- **Support Email**: support@truenumber.com
-- **Developer Slack**: [slack.truenumber.com](https://slack.truenumber.com)
+### Phase 3 (Months 6-8): Polish & Launch
+- [ ] UI/UX refinements
+- [ ] Analytics dashboard
+- [ ] Marketing integration
+- [ ] Beta testing program
 
-### Issue Reporting
-- **GitHub Issues**: For bug reports and feature requests
-- **Security Issues**: security@truenumber.com (PGP key available)
-- **Status Page**: [status.truenumber.com](https://status.truenumber.com)
+### Phase 4 (Months 9-12): Growth
+- [ ] Public launch
+- [ ] Advanced features
+- [ ] International expansion
+- [ ] Partnership integrations
+
+## 📝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Contributing
+## 🆘 Support
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details on how to get started.
+- **Documentation**: See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed technical docs
+- **Issues**: Report bugs and feature requests via GitHub Issues
+- **Email**: support@truenumber.com
+- **Slack**: [Join our developer community](#)
 
 ---
 
-**TrueNumber Team**  
-Building the future of mobile verification 📱🔐
+**Built with ❤️ by the TrueNumber Team**
