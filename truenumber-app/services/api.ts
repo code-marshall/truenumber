@@ -21,12 +21,12 @@ let currentUser: User | null = null;
 
 // Generate mock data
 const generateMockValidation = (): PendingValidation => {
-  const correctOption = Math.floor(Math.random() * 900000) + 100000; // 6 digit number
+  const correctOption = Math.floor(Math.random() * 9000) + 1000; // 4 digit number
   const options = [correctOption];
   
   // Generate 2 more random options
   while (options.length < 3) {
-    const randomOption = Math.floor(Math.random() * 900000) + 100000;
+    const randomOption = Math.floor(Math.random() * 9000) + 1000;
     if (!options.includes(randomOption)) {
       options.push(randomOption);
     }
